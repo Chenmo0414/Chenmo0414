@@ -1,0 +1,9 @@
+{
+  "name": "川西逆时针自驾路书 2026",
+  "short_name": "川西路书",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f3ee",
+  "theme_color": "#18231f",
+  "icons": []
+}
