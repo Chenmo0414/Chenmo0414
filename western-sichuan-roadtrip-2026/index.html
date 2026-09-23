@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="description" content="2026 国庆厦门出发川西逆时针自驾路书" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>川西逆时针自驾路书 · 2026 国庆</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-overlay"></div>
+      <nav class="topbar container">
+        <div class="brand">ROADBOOK <span>2026</span></div>
+        <div class="top-actions">
+          <button id="offlineBtn" class="ghost-btn">离线说明</button>
+          <a class="ghost-btn" href="https://caiyunapp.com/map/?lang=zh" target="_blank" rel="noreferrer">彩云天气</a>
+        </div>
+      </nav>
+      <div class="hero-content container">
+        <div class="eyebrow">厦门出发 · 国庆 · 极氪 001 WE100</div>
+        <h1>川西逆时针<br/>自驾路书</h1>
+        <p>9 月 29 日晚出发 · 10 月 7 日返厦门<br/>成都 → 四姑娘山 → 丹巴 → 塔公 → 新都桥 → 理塘 → 稻城亚丁 → 康定</p>
+        <div class="hero-stats" id="heroStats"></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="container section grid-overview">
+        <article class="panel overview-panel">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow dark">总览</div>
+              <h2>一眼看懂整个环线</h2>
+            </div>
+            <span class="pill">逆时针</span>
+          </div>
+          <div id="summaryCards" class="summary-cards"></div>
+          <div class="route-strip" id="routeStrip"></div>
+        </article>
+
+        <article class="panel warning-panel">
+          <div class="eyebrow dark">最重要的规则</div>
+          <h3>时间表不是 KPI</h3>
+          <p>实际执行优先级：<strong>道路与天气安全 ＞ 人的状态 ＞ 电量 ＞ 景点。</strong></p>
+          <ul>
+            <li>高原段到站余量尽量 ≥ 25–30%</li>
+            <li>10/2–10/4 重点看降温、雨雪、结冰</li>
+            <li>夜间不追景、不走陌生山路</li>
+            <li>国庆拥堵时直接触发降级方案</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="map-section">
+        <div class="container">
+          <div class="section-head light">
+            <div>
+              <div class="eyebrow">交互地图</div>
+              <h2>路线节点与分段里程</h2>
+            </div>
+            <div class="map-note">示意路线 · 最终以高德实时导航为准</div>
+          </div>
+        </div>
+        <div id="map"></div>
+      </section>
+
+      <section class="container section">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow dark">路书核心</div>
+            <h2>地区之间到底隔多远？</h2>
+          </div>
+          <div class="filter-row" id="segmentFilters"></div>
+        </div>
+        <div id="segmentTable" class="segment-table-wrap"></div>
+      </section>
+
+      <section class="container section">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow dark">逐日执行</div>
+            <h2>按天展开 · 每天再拆到路段</h2>
+          </div>
+        </div>
+        <div id="dayTimeline" class="day-timeline"></div>
+      </section>
+
+      <section class="container section two-col">
+        <article class="panel">
+          <div class="section-head compact">
+            <div>
+              <div class="eyebrow dark">华住优先</div>
+              <h2>住宿清单</h2>
+            </div>
+          </div>
+          <div id="hotelList" class="hotel-list"></div>
+        </article>
+        <article class="panel">
+          <div class="section-head compact">
+            <div>
+              <div class="eyebrow dark">WE100</div>
+              <h2>补能策略</h2>
+            </div>
+          </div>
+          <div id="chargingList" class="charging-list"></div>
+        </article>
+      </section>
+
+      <section class="container section">
+        <article class="panel weather-panel">
+          <div class="section-head compact">
+            <div>
+              <div class="eyebrow dark">天气</div>
+              <h2>彩云天气执行位</h2>
+            </div>
+            <a class="primary-link" href="https://caiyunapp.com/map/?lang=zh" target="_blank" rel="noreferrer">打开彩云天气 ↗</a>
+          </div>
+          <p>当前项目不内置你的彩云 API Token，避免把私有 Token 暴露在前端。出发前 48h / 24h 按下面地点逐一刷新，并把结果写入本地备注。</p>
+          <div id="weatherChecklist" class="weather-checklist"></div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>Western Sichuan Roadbook · 2026</div>
+        <div>距离与时间为规划值，国庆期间以高德实时导航 / 交警通告为准。</div>
+      </div>
+    </footer>
+  </div>
+
+  <dialog id="offlineDialog">
+    <div class="dialog-inner">
+      <button class="dialog-close" id="dialogClose">×</button>
+      <h3>离线使用</h3>
+      <p>本项目注册了 Service Worker。首次完整打开后，核心页面、样式和路书数据会缓存；地图底图与外部字体仍依赖网络。</p>
+      <p>真正进山前建议同时保存：高德离线地图、彩云天气收藏地点、景区预约二维码和酒店订单截图。</p>
+    </div>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="./app.js"></script>
+</body>
+</html>
